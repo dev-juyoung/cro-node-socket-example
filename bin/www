@@ -35,7 +35,7 @@ server.on('listening', onListening);
  * Listening on provided socket interfaces.
  */
 
-io.on('connection', onSocketListening);
+io.on('connection', onConnection);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -98,9 +98,9 @@ function onListening() {
 }
 
 /**
- * 
+ * Event listener for Socket server "connection" event.
  */
 
-function onSocketListening(socket) {
+function onConnection(socket) {
   debug('User is Connection!');
 }

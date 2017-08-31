@@ -17,9 +17,11 @@ app.set('port', port);
 
 /**
  * Create HTTP server.
+ * Integrates socket with server.
  */
 
 var server = http.createServer(app);
+var io = require('socket.io')(server);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -28,6 +30,12 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+/**
+ * Listening on provided socket interfaces.
+ */
+
+io.on('connection', onSocketListening);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -87,4 +95,12 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+}
+
+/**
+ * 
+ */
+
+function onSocketListening(socket) {
+  debug('User is Connection!');
 }

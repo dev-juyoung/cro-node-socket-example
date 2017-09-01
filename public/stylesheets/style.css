@@ -78,3 +78,8 @@ form button {
   border: none;
   border-radius: 12px;
 }
+
+form button:disabled {
+  color: #D7D7D7;
+  background: #F9F9F9;
+}

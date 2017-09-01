@@ -51,9 +51,11 @@
         let createHTML;
 
         if (messageType == 'system') {
+          const userAction = data.action == 'entered' ? '채팅방에 들어왔습니다.' : '채팅방을 나갔습니다.';
+
           createHTML = `
           <li>
-            <div class="system-message">${ messageData.username }님이 채팅방에 들어왔습니다.</div>
+            <div class="system-message">${ messageData.username }님이 ${userAction}</div>
           </li>
           `;
         } else if (messageType == 'self') {

@@ -116,7 +116,7 @@ function onConnection(socket) {
       // channel에 join처리 완료 후, 클라이언트로 이벤트를 전달함.
       // io.emit() 또는 socket.broadcast.emit(): 현재 socket에 연결되어 있는 모든 client에게 이벤트를 방출한다. (본인 포함)
       // socket.to(channel).emit(): 이벤트를 보낸 client를 제외한 해당 channel의 모든 client에게 이벤트를 방출한다.
-      socket.to(channel).emit('system', { type: 'system', data: data });
+      socket.to(channel).emit('system', { type: 'system', action: 'entered', data: data });
     })
 
     // 메시지 이벤트 전달 받음.
@@ -124,5 +124,11 @@ function onConnection(socket) {
       // 전달받은 메시지를 이벤트를 보낸 client를 제외한 해당 channel의 모든 client에게 재 전달한다.
       socket.to(channel).emit('chat-message', { type: 'received', data: data });
     })
+
+    // 해당 socket의 disconnect 처리.
+    socket.on('disconnect', () => {
+      // 해당 socket객체에 저장한 username을 이용하여, 채팅방 나감 이벤트를 전달한다.
+      socket.to(channel).emit('system', { type: 'system', action: 'exited', data: { username: socket.username } });
+    });
   });
 }

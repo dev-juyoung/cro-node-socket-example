@@ -6,20 +6,7 @@
     <link rel="stylesheet" type="text/css" href="./stylesheets/style.css">
   </head>
   <body>
-    <ul id="messages">
-      <li>
-        <div class="receive-container">
-          <div class="receive-nickname">타인의 닉네임</div>
-          <div class="receive-message">타인의 메시지</div>
-        </div>
-      </li>
-      <li>
-        <div class="self-message">본인의 메시지</div>
-      </li>
-      <li>
-        <div class="system-message">접속자 및 퇴장자 알림 메시지</div>
-      </li>
-    </ul>
+    <ul id="messages"></ul>
     <form action="">
       <textarea id="message"></textarea>
       <button id="send-button" disabled>전송</button>
@@ -28,13 +15,51 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script>
+      // socket 객체 전역 관리를 위한 변수.
+      let socket;
+
       $(() => {
-        const socket = io();
+        const username = prompt('닉네임을 입력해주세요.');
+        if (!username) {
+          alert('닉네임은 필수입력 항목입니다!');
+          location.reload(true);
+          return false;
+        }
+
+        socket = io();
+
+        socket.emit('join-user', { username: username });
+
+        //socket.to(channel).emit('system', data);
 
         $('#message').keydown(onKeyDown);
         $('#message').keyup(onKeyUp);
         $('form').submit(onSubmit);
+
+        socket.on('system', onMessageReceived);
       });
+
+      // 전달받은 데이터를 이용하여, html을 생성한 후, 화면에 추가한다.
+      function onMessageReceived(data) {
+        const messageType = data.type;
+        const messageData = data.data;
+        let createHTML;
+
+        if (messageType == 'system') {
+          createHTML = `
+          <li>
+            <div class="system-message">${ messageData.username }님이 채팅방에 들어왔습니다.</div>
+          </li>
+          `;
+        } else if (messageType == 'self') {
+
+        } else if (messageType == 'received') {
+          
+        }
+
+        $('#messages').append(createHTML);
+        window.scrollTo(0, document.body.scrollHeight);
+      }
 
       // TextArea의 KeyDown 이벤트 처리.
       // 키조합에 따른 동작을 처리한다.

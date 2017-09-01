@@ -97,10 +97,23 @@ function onListening() {
   debug('Listening on ' + bind);
 }
 
+// 채팅방에 사용될 channel명.
+const channel = 'cro-socket-example';
+
 /**
  * Event listener for Socket server "connection" event.
  */
-
 function onConnection(socket) {
   debug('User is Connection!');
+
+  // 유저의 접속에 대한 이벤트를 전달 받음.
+  socket.on('join-user', (data) => {
+    // channel에 접속 처리.
+    socket.join(channel, () => {
+      // channel에 join처리 완료 후, 클라이언트로 이벤트를 전달함.
+      // io.emit() 또는 socket.broadcast.emit(): 현재 socket에 연결되어 있는 모든 client에게 이벤트를 방출한다. (본인 포함)
+      // socket.to(channel).emit(): 이벤트를 보낸 client를 제외한 해당 channel의 모든 client에게 이벤트를 방출한다.
+      socket.to(channel).emit('system', { type: 'system', data: data });
+    })
+  });
 }

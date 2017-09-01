@@ -15,11 +15,16 @@ body {
 
 #messages {
   list-style-type: none;
-  padding: 0 16px;
+}
+
+#messages li {
+  display: flex;
+  flex-direction: column;
 }
 
 #messages li div.receive-container {
   margin-top: 4px;
+  margin-left: 8px;
 }
 
 #messages li div.receive-nickname {
@@ -29,6 +34,7 @@ body {
 
 #messages li div.receive-message,
 #messages li div.self-message {
+  display: inline-block;
   max-width: 95%;
   padding: 8px;
   margin-top: 4px;
@@ -42,7 +48,16 @@ body {
 
 #messages li div.self-message {
   margin-left: auto;
+  margin-right: 8px;
   background: #FEEB34;
+}
+
+#messages li div.system-message {
+  width: 100%;
+  margin: 8px 0;
+  padding: 8px 0;
+  text-align: center;
+  background: #AFC1CA;
 }
 
 form {

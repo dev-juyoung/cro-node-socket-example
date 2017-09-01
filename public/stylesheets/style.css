@@ -15,6 +15,7 @@ body {
 
 #messages {
   list-style-type: none;
+  margin-bottom: 100px;
 }
 
 #messages li {

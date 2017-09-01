@@ -26,7 +26,7 @@
     </ul>
     <form action="">
       <textarea id="message"></textarea>
-      <button>전송</button>
+      <button id="send-button" disabled>전송</button>
     </form>
 
     <script src="/socket.io/socket.io.js"></script>
@@ -36,10 +36,12 @@
         const socket = io();
 
         $('#message').keydown(onKeyDown);
+        $('#message').keyup(onKeyUp);
         $('form').submit(onSubmit);
       });
 
       // TextArea의 KeyDown 이벤트 처리.
+      // 키조합에 따른 동작을 처리한다.
       function onKeyDown(event) {
         if (event.keyCode == 13 && event.shiftKey) {
           console.log('keydown is shift + enter');
@@ -47,6 +49,18 @@
         } else if (event.keyCode == 13) {
           event.preventDefault();
           $('form').submit(onSubmit());
+        }
+      }
+
+      // TextArea의 KeyUp 이벤트 처리.
+      // 입력된 데이터의 길이를 확인하여, Button의 enable & disable을 처리한다.
+      function onKeyUp() {
+        const length = $(this).val().length;
+
+        if (length == 0) {
+          $('#send-button').prop('disabled', true);
+        } else {
+          $('#send-button').prop('disabled', false);
         }
       }
 

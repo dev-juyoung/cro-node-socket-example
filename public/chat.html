@@ -3,16 +3,66 @@
   <head>
     <meta charset="utf8">
     <title>Cro Node Socket Example</title>
+    <link rel="stylesheet" type="text/css" href="./stylesheets/style.css">
   </head>
   <body>
-    Hello Socket.io
+    <ul id="messages">
+      <li>
+        <div class="receive-container">
+          <div class="receive-nickname">타인의 닉네임</div>
+          <div class="receive-message">타인의 메시지</div>
+        </div>
+      </li>
+      <li>
+        <div class="self-message">
+          본인의 메시지
+        </div>
+      </li>
+      <li>
+        <div class="self-message">
+          본인의 메시지
+        </div>
+      </li>
+    </ul>
+    <form action="">
+      <textarea id="message"></textarea>
+      <button>전송</button>
+    </form>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script>
       $(() => {
         const socket = io();
+
+        $('#message').keydown(onKeyDown);
+        $('form').submit(onSubmit);
       });
+
+      // TextArea의 KeyDown 이벤트 처리.
+      function onKeyDown(event) {
+        if (event.keyCode == 13 && event.shiftKey) {
+          console.log('keydown is shift + enter');
+          return;
+        } else if (event.keyCode == 13) {
+          event.preventDefault();
+          $('form').submit(onSubmit());
+        }
+      }
+
+      // 서버로 메시지를 전송한다.
+      function onSubmit() {
+        const sendMessage = $('#message').val();
+        
+        if (!sendMessage) {
+          console.log('전달할 메시지가 없으므로, 서버로 전송하지 않는다.');
+          return false;
+        }
+
+        // 메시지 전송 후, Textarea 빈값으로 초기화.
+        $('#message').val('');
+        return false;
+      }
     </script>
   </body>
 </html>

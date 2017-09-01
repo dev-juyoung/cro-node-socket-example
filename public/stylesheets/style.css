@@ -1,8 +1,80 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-a {
-  color: #00B7FF;
+html, body {
+  width: 100%;
+}
+
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #BED1DB;
+}
+
+#messages {
+  list-style-type: none;
+  padding: 0 16px;
+}
+
+#messages li div.receive-container {
+  margin-top: 4px;
+}
+
+#messages li div.receive-nickname {
+  margin-left: 4px;
+  font-size: 12px;
+}
+
+#messages li div.receive-message,
+#messages li div.self-message {
+  max-width: 95%;
+  padding: 8px;
+  margin-top: 4px;
+  border-radius: 8px;
+}
+
+#messages li div.receive-message {
+  margin-top: 2px;
+  background: #FFFFFF;
+}
+
+#messages li div.self-message {
+  margin-left: auto;
+  background: #FEEB34;
+}
+
+form {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 10px;
+  border-top: 1px solid #E9E9E9;
+  background: #FFFFFF;
+}
+
+form textarea {
+  flex: auto;
+  height: 70px;
+  margin-right: 16px;
+  border: none;
+  resize: none;
+}
+
+form textarea:focus {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+}
+
+form button {
+  width: 80px;
+  height: 70px;
+  color: #523738;
+  background: #FEEB34;
+  border: none;
+  border-radius: 12px;
 }
